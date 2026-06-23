@@ -1,0 +1,1355 @@
+{
+  "version": "1.0",
+  "updated": "2026-06-23",
+  "topics": [
+    {
+      "id": "devops",
+      "label": "DevOps & CI/CD",
+      "icon": "⚙️",
+      "items": [
+        {
+          "q": "What is CI/CD and how have you implemented it using Jenkins?",
+          "level": "basic",
+          "hint": "Think about your DigitalOne pipeline setup end to end."
+        },
+        {
+          "q": "Explain the difference between Continuous Integration, Continuous Delivery, and Continuous Deployment.",
+          "level": "basic",
+          "hint": ""
+        },
+        {
+          "q": "What is a declarative vs scripted Jenkins pipeline? Which do you prefer and why?",
+          "level": "mid",
+          "hint": "You have hands-on experience — explain with real examples."
+        },
+        {
+          "q": "How do you set up and manage Jenkins Nodes (master-agent architecture)?",
+          "level": "mid",
+          "hint": "You have managed Jenkins Nodes — explain the setup and purpose."
+        },
+        {
+          "q": "How do you trigger a Jenkins pipeline automatically on a code push?",
+          "level": "basic",
+          "hint": "Webhooks from Bitbucket to Jenkins."
+        },
+        {
+          "q": "How do you handle a failed deployment and roll back using your pipeline?",
+          "level": "adv",
+          "hint": "Helm rollback command, using previous image tags."
+        },
+        {
+          "q": "What monitoring tools have you used to observe deployments? How do you use Splunk?",
+          "level": "mid",
+          "hint": "Splunk log search, dashboards, alerts."
+        },
+        {
+          "q": "Explain Blue-Green deployment vs Canary deployment. Have you implemented either?",
+          "level": "adv",
+          "hint": ""
+        },
+        {
+          "q": "What is the difference between a build pipeline and a release pipeline?",
+          "level": "basic",
+          "hint": ""
+        }
+      ]
+    },
+    {
+      "id": "jenkins",
+      "label": "Jenkins",
+      "icon": "🔧",
+      "items": [
+        {
+          "q": "What is Jenkins and why is it widely used in DevOps?",
+          "level": "basic",
+          "hint": ""
+        },
+        {
+          "q": "What is a Jenkinsfile and what are the two types of pipeline syntax?",
+          "level": "basic",
+          "hint": "Declarative vs Scripted pipeline."
+        },
+        {
+          "q": "How do you configure a Jenkins master-agent architecture? What are the benefits?",
+          "level": "mid",
+          "hint": "Explain agent types: SSH, JNLP."
+        },
+        {
+          "q": "How do you manage user roles and permissions in Jenkins?",
+          "level": "basic",
+          "hint": "Role-Based Access Control (RBAC) plugin."
+        },
+        {
+          "q": "How do you integrate Jenkins with Bitbucket for automated builds?",
+          "level": "mid",
+          "hint": "Webhooks, Bitbucket plugin, branch strategies."
+        },
+        {
+          "q": "What is a shared library in Jenkins and why would you use it?",
+          "level": "mid",
+          "hint": "Reuse pipeline code across multiple projects."
+        },
+        {
+          "q": "How do you pass parameters between stages in a Jenkins pipeline?",
+          "level": "mid",
+          "hint": "Environment variables, stash/unstash."
+        },
+        {
+          "q": "How do you secure credentials in Jenkins pipelines?",
+          "level": "adv",
+          "hint": "Jenkins credentials store, withCredentials block."
+        },
+        {
+          "q": "What are Jenkins build triggers? Explain SCM polling vs webhooks.",
+          "level": "mid",
+          "hint": "Webhooks are preferred — real-time, less overhead."
+        },
+        {
+          "q": "How do you archive artifacts and publish test reports in Jenkins?",
+          "level": "basic",
+          "hint": "archiveArtifacts, junit plugin."
+        },
+        {
+          "q": "How do you set up notifications in Jenkins on build failure?",
+          "level": "basic",
+          "hint": "Post block in declarative pipeline — email or Slack."
+        },
+        {
+          "q": "How do you handle parallel stages in a Jenkins pipeline?",
+          "level": "mid",
+          "hint": "parallel block in declarative pipeline."
+        },
+        {
+          "q": "What is the difference between a freestyle job and a pipeline job in Jenkins?",
+          "level": "basic",
+          "hint": ""
+        },
+        {
+          "q": "How do you troubleshoot a Jenkins build that is stuck or failing?",
+          "level": "adv",
+          "hint": "Check executor, agent connectivity, logs, workspace."
+        },
+        {
+          "q": "How do you upgrade Jenkins and manage plugins safely?",
+          "level": "mid",
+          "hint": "Test in staging, pin plugin versions, backup before upgrade."
+        }
+      ]
+    },
+    {
+      "id": "bitbucket",
+      "label": "Bitbucket",
+      "icon": "🗂️",
+      "items": [
+        {
+          "q": "What is Bitbucket and how does it differ from GitHub?",
+          "level": "basic",
+          "hint": "Atlassian ecosystem, JIRA integration, self-hosted option."
+        },
+        {
+          "q": "What is a Bitbucket repository and how do you create one?",
+          "level": "basic",
+          "hint": ""
+        },
+        {
+          "q": "Explain the Git branching strategy you follow in your projects.",
+          "level": "mid",
+          "hint": "Feature branch, develop, release, hotfix — GitFlow."
+        },
+        {
+          "q": "How do you create and review a Pull Request in Bitbucket?",
+          "level": "basic",
+          "hint": "Code review, approvals, merge strategies."
+        },
+        {
+          "q": "What are Bitbucket Pipelines and how do they compare to Jenkins?",
+          "level": "mid",
+          "hint": "Built-in CI/CD vs external Jenkins — tradeoffs."
+        },
+        {
+          "q": "How do you configure webhooks in Bitbucket to trigger Jenkins?",
+          "level": "mid",
+          "hint": "Settings → Webhooks → Jenkins URL."
+        },
+        {
+          "q": "What is a Bitbucket branch permission and why do you use it?",
+          "level": "basic",
+          "hint": "Protect main/release branches from direct pushes."
+        },
+        {
+          "q": "How do you resolve a merge conflict in Git/Bitbucket?",
+          "level": "mid",
+          "hint": "git fetch, merge, resolve manually, commit."
+        },
+        {
+          "q": "What is the difference between git merge and git rebase?",
+          "level": "mid",
+          "hint": "Merge preserves history, rebase rewrites it — cleaner log."
+        },
+        {
+          "q": "How do you tag a release in Bitbucket and why is it important?",
+          "level": "basic",
+          "hint": "git tag — used for versioning and rollback reference."
+        },
+        {
+          "q": "How do you manage access control and permissions in Bitbucket?",
+          "level": "mid",
+          "hint": "Project/repo level permissions, groups, SSH keys."
+        },
+        {
+          "q": "What is a Bitbucket fork and when would you use it?",
+          "level": "basic",
+          "hint": "Independent copy for open-source or isolated development."
+        }
+      ]
+    },
+    {
+      "id": "ansible",
+      "label": "Ansible",
+      "icon": "📋",
+      "items": [
+        {
+          "q": "What is Ansible and how does it differ from Chef or Puppet?",
+          "level": "basic",
+          "hint": "Agentless, YAML-based, push model."
+        },
+        {
+          "q": "What is an Ansible playbook? Walk me through its structure.",
+          "level": "basic",
+          "hint": "hosts, vars, tasks, handlers sections."
+        },
+        {
+          "q": "What is an Ansible inventory file? What are static vs dynamic inventories?",
+          "level": "basic",
+          "hint": "Static: INI/YAML file. Dynamic: script/plugin that queries cloud APIs."
+        },
+        {
+          "q": "What are Ansible roles and why do you use them?",
+          "level": "mid",
+          "hint": "Reusable, modular playbook structure — roles folder layout."
+        },
+        {
+          "q": "What is the difference between Ansible variables, facts, and registers?",
+          "level": "mid",
+          "hint": "vars: defined, facts: gathered, register: task output stored."
+        },
+        {
+          "q": "How do you handle sensitive data like passwords in Ansible?",
+          "level": "mid",
+          "hint": "Ansible Vault — encrypt variables or entire files."
+        },
+        {
+          "q": "What are Ansible handlers and when are they triggered?",
+          "level": "mid",
+          "hint": "Triggered only when notified by a task that changed."
+        },
+        {
+          "q": "How do you run an Ansible playbook in check mode (dry run)?",
+          "level": "basic",
+          "hint": "--check flag — shows what would change without applying."
+        },
+        {
+          "q": "What is the difference between ansible ad-hoc commands and playbooks?",
+          "level": "basic",
+          "hint": "Ad-hoc: one-off commands. Playbooks: repeatable automation."
+        },
+        {
+          "q": "How do you use Ansible to deploy an application across multiple servers?",
+          "level": "mid",
+          "hint": "Inventory groups, rolling updates with serial keyword."
+        },
+        {
+          "q": "What are Ansible modules? Name some commonly used ones.",
+          "level": "basic",
+          "hint": "yum, apt, copy, template, service, file, command, shell."
+        },
+        {
+          "q": "How do you use Ansible for configuration management in a DevOps pipeline?",
+          "level": "adv",
+          "hint": "Integrate with Jenkins — run playbook after Terraform provisions infra."
+        }
+      ]
+    },
+    {
+      "id": "windows",
+      "label": "Windows Server & IIS",
+      "icon": "🪟",
+      "items": [
+        {
+          "q": "What experience do you have with Windows Server administration?",
+          "level": "basic",
+          "hint": "Windows 2003/2008/2012 R2/2022 experience."
+        },
+        {
+          "q": "What is IIS and what have you used it for?",
+          "level": "basic",
+          "hint": "Web server for hosting .NET and banking apps on Windows."
+        },
+        {
+          "q": "How do you install and configure IIS on Windows Server?",
+          "level": "basic",
+          "hint": "Server Manager → Add Roles → Web Server (IIS)."
+        },
+        {
+          "q": "How do you deploy a web application to IIS?",
+          "level": "mid",
+          "hint": "Application pool, site binding, virtual directory setup."
+        },
+        {
+          "q": "What is an Application Pool in IIS and why is it important?",
+          "level": "mid",
+          "hint": "Isolation, worker process (w3wp.exe), identity, recycling settings."
+        },
+        {
+          "q": "How do you configure SSL/TLS certificates in IIS?",
+          "level": "mid",
+          "hint": "Server Certificates → bind HTTPS → select certificate."
+        },
+        {
+          "q": "How do you troubleshoot a 500 Internal Server Error in IIS?",
+          "level": "adv",
+          "hint": "Event Viewer, IIS logs (C:\\\\inetpub\\\\logs), Failed Request Tracing."
+        },
+        {
+          "q": "What are IIS log files and where are they located?",
+          "level": "basic",
+          "hint": "C:\\\\inetpub\\\\logs\\\\LogFiles — W3C format, useful for troubleshooting."
+        },
+        {
+          "q": "How do you configure URL rewrite rules in IIS?",
+          "level": "mid",
+          "hint": "URL Rewrite module — redirect HTTP to HTTPS, clean URLs."
+        },
+        {
+          "q": "What is Windows Server 2022 and what are its key improvements?",
+          "level": "mid",
+          "hint": "Secured-core server, Azure Arc integration, SMB compression."
+        },
+        {
+          "q": "How do you manage Windows services and scheduled tasks?",
+          "level": "basic",
+          "hint": "services.msc, Task Scheduler, sc.exe, PowerShell."
+        },
+        {
+          "q": "How do you monitor Windows Server performance?",
+          "level": "mid",
+          "hint": "Task Manager, Resource Monitor, Performance Monitor, Event Viewer."
+        },
+        {
+          "q": "What is Active Directory and how have you used it?",
+          "level": "mid",
+          "hint": "User/group management, GPO — directory services."
+        },
+        {
+          "q": "How do you patch and update Windows Server securely?",
+          "level": "basic",
+          "hint": "WSUS, Windows Update, patch scheduling, maintenance windows."
+        }
+      ]
+    },
+    {
+      "id": "tomcat",
+      "label": "Apache Tomcat",
+      "icon": "🐱",
+      "items": [
+        {
+          "q": "What is Apache Tomcat and what is it used for?",
+          "level": "basic",
+          "hint": "Java Servlet container — hosts Java web applications (WAR files)."
+        },
+        {
+          "q": "What is the directory structure of Tomcat? Explain key folders.",
+          "level": "basic",
+          "hint": "bin, conf, webapps, logs, lib, work — explain each."
+        },
+        {
+          "q": "How do you deploy a WAR file to Tomcat?",
+          "level": "basic",
+          "hint": "Drop in webapps folder or use Manager app."
+        },
+        {
+          "q": "What is the server.xml file in Tomcat and what does it configure?",
+          "level": "mid",
+          "hint": "Connectors, ports (8080/8443), virtual hosts, engine, realm."
+        },
+        {
+          "q": "How do you configure HTTPS/SSL in Tomcat?",
+          "level": "mid",
+          "hint": "Connector in server.xml with keystoreFile and SSL attributes."
+        },
+        {
+          "q": "What is the difference between HTTP and AJP connectors in Tomcat?",
+          "level": "mid",
+          "hint": "HTTP: direct browser traffic. AJP: from Apache web server proxy."
+        },
+        {
+          "q": "How do you tune JVM heap memory settings for Tomcat?",
+          "level": "adv",
+          "hint": "CATALINA_OPTS: -Xms, -Xmx settings in setenv.sh/bat."
+        },
+        {
+          "q": "How do you troubleshoot a Tomcat application that is slow or unresponsive?",
+          "level": "adv",
+          "hint": "Thread dumps, GC logs, heap analysis, catalina.out logs."
+        },
+        {
+          "q": "What are Tomcat access logs and how do you enable them?",
+          "level": "basic",
+          "hint": "AccessLogValve in server.xml — logs every HTTP request."
+        },
+        {
+          "q": "How do you configure a JDBC connection pool in Tomcat?",
+          "level": "mid",
+          "hint": "context.xml Resource element with DBCP pool settings."
+        },
+        {
+          "q": "What is the difference between Tomcat and IBM WebSphere?",
+          "level": "mid",
+          "hint": "Tomcat: lightweight open-source. WebSphere: enterprise, heavyweight."
+        },
+        {
+          "q": "How do you manage multiple Tomcat instances on one server?",
+          "level": "mid",
+          "hint": "Separate CATALINA_HOME, different ports per instance."
+        },
+        {
+          "q": "How do you restart Tomcat and check its status on Linux?",
+          "level": "basic",
+          "hint": "./shutdown.sh and ./startup.sh in bin/, or systemctl restart tomcat."
+        },
+        {
+          "q": "What are the main configuration files in Apache Tomcat and what does each do?",
+          "level": "basic",
+          "hint": "server.xml (connectors/engine/host), web.xml (default servlets/filters), context.xml (datasources/resources), catalina.properties (classpath/security), logging.properties."
+        },
+        {
+          "q": "What would you do if Apache Tomcat is frequently going down?",
+          "level": "mid",
+          "hint": "Check catalina.out for OOM/exceptions, review thread count (maxThreads), check heap settings (-Xmx), monitor GC, check for memory leaks in apps, consider JVM tuning."
+        },
+        {
+          "q": "What is horizontal vs vertical scaling in Apache Tomcat?",
+          "level": "mid",
+          "hint": "Vertical: increase JVM heap, CPU/RAM on same server. Horizontal: add more Tomcat instances behind a load balancer (Apache httpd mod_jk or mod_proxy). Horizontal preferred for HA."
+        },
+        {
+          "q": "What solutions would you implement to avoid application crashes in Tomcat?",
+          "level": "adv",
+          "hint": "JVM heap tuning, connection pool limits (maxTotal/maxIdle), thread pool sizing, watchdog/process monitor (systemd), graceful shutdown scripts, log rotation, health check endpoints."
+        }
+      ]
+    },
+    {
+      "id": "helm",
+      "label": "Helm",
+      "icon": "⛵",
+      "items": [
+        {
+          "q": "What is Helm and why is it used in Kubernetes?",
+          "level": "basic",
+          "hint": "Package manager for Kubernetes — templates YAML manifests."
+        },
+        {
+          "q": "What are Helm charts? Explain the chart directory structure.",
+          "level": "basic",
+          "hint": "Chart.yaml, values.yaml, templates/ — explain each file."
+        },
+        {
+          "q": "What is the difference between helm install, upgrade, and rollback?",
+          "level": "basic",
+          "hint": "install: first deploy, upgrade: update release, rollback: revert."
+        },
+        {
+          "q": "What are Helm values and how do you override them?",
+          "level": "mid",
+          "hint": "values.yaml defaults, override with -f flag or --set."
+        },
+        {
+          "q": "What is a Helm release and how do you manage releases?",
+          "level": "mid",
+          "hint": "helm list, helm history, helm status, helm uninstall."
+        },
+        {
+          "q": "What is the difference between Helm 2 and Helm 3?",
+          "level": "mid",
+          "hint": "Helm 3 removed Tiller — direct cluster access, more secure."
+        },
+        {
+          "q": "How do you create a custom Helm chart from scratch?",
+          "level": "mid",
+          "hint": "helm create my-chart — generates boilerplate structure."
+        },
+        {
+          "q": "What are Helm hooks and when do you use them?",
+          "level": "adv",
+          "hint": "pre-install, post-upgrade — run jobs at lifecycle points."
+        },
+        {
+          "q": "How do you manage environment-specific configs with Helm?",
+          "level": "mid",
+          "hint": "Separate values files: values-dev.yaml, values-prod.yaml."
+        },
+        {
+          "q": "How do you debug a failing Helm deployment?",
+          "level": "adv",
+          "hint": "helm install --dry-run --debug, kubectl describe pod, events."
+        },
+        {
+          "q": "What is a Helm repository and how do you add one?",
+          "level": "basic",
+          "hint": "helm repo add, helm repo update, helm search repo."
+        },
+        {
+          "q": "How do you handle Helm chart versioning?",
+          "level": "mid",
+          "hint": "Chart.yaml version and appVersion fields, semantic versioning."
+        },
+        {
+          "q": "How do you use Helm with a Jenkins pipeline for deployments?",
+          "level": "adv",
+          "hint": "helm upgrade --install in Jenkins stage, pass env-specific values file."
+        }
+      ]
+    },
+    {
+      "id": "aws",
+      "label": "AWS",
+      "icon": "☁️",
+      "items": [
+        {
+          "q": "What is AWS IAM? Explain users, groups, roles, and policies.",
+          "level": "basic",
+          "hint": "Identity and Access Management — principle of least privilege."
+        },
+        {
+          "q": "What is the difference between an IAM role and an IAM user?",
+          "level": "basic",
+          "hint": "User: long-term credentials. Role: temporary, assumed by services."
+        },
+        {
+          "q": "What is an EC2 instance? How do you launch and connect to one?",
+          "level": "basic",
+          "hint": "Virtual machine on AWS — launch via console/CLI, connect via SSH."
+        },
+        {
+          "q": "What are EC2 instance types and how do you choose the right one?",
+          "level": "mid",
+          "hint": "t3 (general), c5 (compute), r5 (memory), m5 (balanced)."
+        },
+        {
+          "q": "What is an EC2 Security Group and how does it work?",
+          "level": "basic",
+          "hint": "Virtual firewall — inbound/outbound rules at instance level."
+        },
+        {
+          "q": "What is Amazon S3? How do you use it and what are bucket policies?",
+          "level": "basic",
+          "hint": "Object storage — buckets, objects, versioning, lifecycle rules."
+        },
+        {
+          "q": "What is the difference between S3 Standard, S3 IA, and S3 Glacier?",
+          "level": "mid",
+          "hint": "Frequency of access determines storage class — cost tradeoff."
+        },
+        {
+          "q": "What is Amazon EKS and how does it relate to Kubernetes?",
+          "level": "mid",
+          "hint": "Managed Kubernetes control plane on AWS — you manage worker nodes."
+        },
+        {
+          "q": "How do you deploy an application to EKS?",
+          "level": "mid",
+          "hint": "kubectl apply or Helm — same as Kubernetes but auth via aws eks."
+        },
+        {
+          "q": "What is the difference between EKS and ECS?",
+          "level": "mid",
+          "hint": "EKS: Kubernetes-native. ECS: AWS-proprietary container service."
+        },
+        {
+          "q": "How do you set up IAM roles for EC2 instances to access S3?",
+          "level": "mid",
+          "hint": "Instance profile — attach role, no hardcoded credentials needed."
+        },
+        {
+          "q": "What is a VPC in AWS and what are subnets, route tables, and NAT gateways?",
+          "level": "mid",
+          "hint": "Virtual Private Cloud — network isolation for AWS resources."
+        },
+        {
+          "q": "How do you monitor AWS resources using CloudWatch?",
+          "level": "mid",
+          "hint": "Metrics, logs, alarms, dashboards — set alerts on CPU, memory."
+        },
+        {
+          "q": "What is AWS Auto Scaling and when would you use it?",
+          "level": "mid",
+          "hint": "Automatically add/remove EC2 instances based on demand."
+        },
+        {
+          "q": "How do you use AWS CLI to manage resources?",
+          "level": "basic",
+          "hint": "aws ec2 describe-instances, aws s3 ls, aws iam list-users etc."
+        }
+      ]
+    },
+    {
+      "id": "azure",
+      "label": "Microsoft Azure",
+      "icon": "🔷",
+      "items": [
+        {
+          "q": "What is Azure Kubernetes Service (AKS) and how does it compare to OpenShift?",
+          "level": "basic",
+          "hint": "Managed Kubernetes on Azure — similar to EKS but Azure-native."
+        },
+        {
+          "q": "How do you create and manage an AKS cluster?",
+          "level": "mid",
+          "hint": "az aks create, az aks get-credentials, kubectl commands."
+        },
+        {
+          "q": "How do you deploy an application to AKS using Helm?",
+          "level": "mid",
+          "hint": "helm upgrade --install with kubeconfig pointing to AKS cluster."
+        },
+        {
+          "q": "What is Azure Redis Cache and what is it used for?",
+          "level": "basic",
+          "hint": "Managed Redis service — caching, session storage, pub/sub."
+        },
+        {
+          "q": "How do you connect an application in AKS to Azure Redis?",
+          "level": "mid",
+          "hint": "Connection string with access key, stored as Kubernetes Secret."
+        },
+        {
+          "q": "What is a Jumpbox (Bastion host) in Azure and why do you use it?",
+          "level": "basic",
+          "hint": "Secure entry point to access private VMs — no public IP on target."
+        },
+        {
+          "q": "How do you connect to an Azure Jumpbox and access internal resources from it?",
+          "level": "mid",
+          "hint": "SSH to jumpbox public IP → then SSH to internal VMs via private IP."
+        },
+        {
+          "q": "What is an Azure Virtual Network (VNet) and how does it relate to AKS?",
+          "level": "mid",
+          "hint": "Private network for Azure resources — AKS nodes run inside VNet."
+        },
+        {
+          "q": "What is Azure Active Directory and how is it used with AKS?",
+          "level": "mid",
+          "hint": "RBAC integration — AAD users/groups mapped to Kubernetes roles."
+        },
+        {
+          "q": "How do you monitor AKS workloads?",
+          "level": "mid",
+          "hint": "Azure Monitor, Container Insights, Log Analytics workspace."
+        },
+        {
+          "q": "What is an Azure Resource Group and why is it important?",
+          "level": "basic",
+          "hint": "Logical container for related Azure resources — manage together."
+        },
+        {
+          "q": "What is the difference between Azure Blob Storage and AWS S3?",
+          "level": "mid",
+          "hint": "Both object storage — Azure uses containers inside storage accounts."
+        },
+        {
+          "q": "How do you scale AKS node pools manually and automatically?",
+          "level": "mid",
+          "hint": "az aks scale, Cluster Autoscaler, HPA for pod-level scaling."
+        }
+      ]
+    },
+    {
+      "id": "shell",
+      "label": "Shell Scripting",
+      "icon": "💻",
+      "items": [
+        {
+          "q": "What is shell scripting and why is it useful in DevOps?",
+          "level": "basic",
+          "hint": "Automate repetitive tasks, deployments, monitoring, backups."
+        },
+        {
+          "q": "What is the difference between sh, bash, and zsh?",
+          "level": "basic",
+          "hint": "sh: POSIX standard. bash: most common Linux shell. zsh: extended."
+        },
+        {
+          "q": "How do you write a shell script? What is the shebang line?",
+          "level": "basic",
+          "hint": "#!/bin/bash — tells OS which interpreter to use."
+        },
+        {
+          "q": "What are shell variables and how do you use them?",
+          "level": "basic",
+          "hint": "NAME=value, $NAME to reference — no spaces around =."
+        },
+        {
+          "q": "How do you use if-else conditions in shell scripting?",
+          "level": "basic",
+          "hint": "if [ condition ]; then ... elif ... else ... fi"
+        },
+        {
+          "q": "How do you use for and while loops in shell scripting?",
+          "level": "basic",
+          "hint": "for i in list; do ... done | while [ condition ]; do ... done"
+        },
+        {
+          "q": "What are shell functions and how do you define them?",
+          "level": "mid",
+          "hint": "function_name() { commands; } — reusable blocks of code."
+        },
+        {
+          "q": "How do you handle exit codes and error checking in shell scripts?",
+          "level": "mid",
+          "hint": "$? for last exit code, set -e to exit on error, || for fallback."
+        },
+        {
+          "q": "What is the difference between single quotes and double quotes in bash?",
+          "level": "mid",
+          "hint": "Single: no expansion. Double: variables and commands expanded."
+        },
+        {
+          "q": "How do you read user input and command-line arguments in a shell script?",
+          "level": "mid",
+          "hint": "read for input, $1 $2 $@ for positional arguments."
+        },
+        {
+          "q": "How do you redirect output and handle stdin/stdout/stderr?",
+          "level": "mid",
+          "hint": ">, >>, 2>, 2>&1, /dev/null — redirect or suppress."
+        },
+        {
+          "q": "What are some useful shell commands you use daily in DevOps?",
+          "level": "mid",
+          "hint": "grep, awk, sed, cut, sort, tail, find, xargs, curl, ssh."
+        },
+        {
+          "q": "How do you schedule a shell script using cron?",
+          "level": "basic",
+          "hint": "crontab -e — cron expression: minute hour day month weekday."
+        },
+        {
+          "q": "How do you write a script to check if a service is running and restart it?",
+          "level": "adv",
+          "hint": "systemctl is-active, if not active then systemctl restart — run via cron."
+        },
+        {
+          "q": "How do you debug a shell script?",
+          "level": "mid",
+          "hint": "bash -x script.sh — prints each command before execution."
+        }
+      ]
+    },
+    {
+      "id": "terraform",
+      "label": "Terraform",
+      "icon": "🏗️",
+      "items": [
+        {
+          "q": "What is Terraform and what problem does it solve?",
+          "level": "basic",
+          "hint": "Infrastructure as Code tool — provision cloud resources using code instead of manual clicks."
+        },
+        {
+          "q": "What is the difference between Terraform and Ansible?",
+          "level": "basic",
+          "hint": "Terraform: provisions infrastructure. Ansible: configures software on that infrastructure."
+        },
+        {
+          "q": "What are the main Terraform commands you use daily?",
+          "level": "basic",
+          "hint": "terraform init, plan, apply, destroy, validate, fmt."
+        },
+        {
+          "q": "What is HCL and how is a basic .tf file structured?",
+          "level": "basic",
+          "hint": "HashiCorp Configuration Language — terraform, provider, resource, variable, output blocks."
+        },
+        {
+          "q": "What is a Terraform provider and how do you configure AWS and Azure providers?",
+          "level": "mid",
+          "hint": "Provider = plugin for a cloud. Declare in required_providers block, run terraform init."
+        },
+        {
+          "q": "What is the terraform.tfstate file and why is it important?",
+          "level": "mid",
+          "hint": "State file = Terraform's memory of what it created. Never edit manually, store remotely for teams."
+        },
+        {
+          "q": "What is the difference between terraform plan and terraform apply?",
+          "level": "basic",
+          "hint": "plan: dry run preview. apply: actually creates/changes/destroys real infrastructure."
+        },
+        {
+          "q": "What are Terraform variables and how do you use them?",
+          "level": "mid",
+          "hint": "Input values defined in variables.tf, referenced with var.name, set via .tfvars or CLI."
+        },
+        {
+          "q": "What are Terraform outputs and when do you use them?",
+          "level": "mid",
+          "hint": "Print values after apply (IP, URL) and pass values between modules."
+        },
+        {
+          "q": "What are Terraform modules and why do you use them?",
+          "level": "mid",
+          "hint": "Reusable packages of .tf files — avoid repeating the same code across projects."
+        },
+        {
+          "q": "How do you store Terraform state remotely for a team?",
+          "level": "mid",
+          "hint": "S3 backend for AWS, Azure Blob backend for Azure — enables state locking."
+        },
+        {
+          "q": "What are Terraform workspaces and how do you use them?",
+          "level": "mid",
+          "hint": "Separate state per workspace — manage dev/uat/prod with same codebase."
+        },
+        {
+          "q": "How do you use Terraform to create an EC2 instance on AWS?",
+          "level": "adv",
+          "hint": "aws_instance resource with ami, instance_type, security group, key_name."
+        },
+        {
+          "q": "How do you use Terraform to create an AKS cluster on Azure?",
+          "level": "adv",
+          "hint": "azurerm_kubernetes_cluster resource with node pool, identity, dns_prefix."
+        },
+        {
+          "q": "How do you integrate Terraform with Jenkins CI/CD pipeline?",
+          "level": "adv",
+          "hint": "terraform init/plan in pipeline, manual approval stage, then terraform apply."
+        },
+        {
+          "q": "What are Terraform best practices for a team environment?",
+          "level": "adv",
+          "hint": "Remote state, pin provider versions, use modules, .gitignore tfstate, tag all resources."
+        },
+        {
+          "q": "What happens when you run terraform destroy?",
+          "level": "basic",
+          "hint": "Deletes ALL resources tracked in state. Always run plan -destroy first to preview."
+        },
+        {
+          "q": "How do you import an existing cloud resource into Terraform?",
+          "level": "adv",
+          "hint": "terraform import resource_type.name resource_id — adds to state without recreating."
+        }
+      ]
+    },
+    {
+      "id": "linux",
+      "label": "Linux",
+      "icon": "🐧",
+      "items": [
+        {
+          "q": "What Linux distributions have you worked with?",
+          "level": "basic",
+          "hint": "AIX, Red Hat Linux (RHEL), Ubuntu — production server experience."
+        },
+        {
+          "q": "What are the most important Linux commands for a DevOps engineer?",
+          "level": "basic",
+          "hint": "ls, cd, cp, mv, rm, find, grep, tail, cat, chmod, chown, ps, top, df, du, netstat."
+        },
+        {
+          "q": "How do you check disk space and memory usage on Linux?",
+          "level": "basic",
+          "hint": "df -h for disk, free -h for memory, top/htop for live usage."
+        },
+        {
+          "q": "How do you find and kill a process on Linux?",
+          "level": "basic",
+          "hint": "ps aux | grep process, kill -9 PID, pkill process_name."
+        },
+        {
+          "q": "What is the difference between chmod and chown?",
+          "level": "basic",
+          "hint": "chmod: change file permissions. chown: change file owner/group."
+        },
+        {
+          "q": "How do you check and manage running services on Linux?",
+          "level": "basic",
+          "hint": "systemctl status/start/stop/restart service, journalctl -u service for logs."
+        },
+        {
+          "q": "How do you view and tail log files on Linux?",
+          "level": "basic",
+          "hint": "tail -f /var/log/app.log, grep ERROR /var/log/app.log, less for large files."
+        },
+        {
+          "q": "What is crontab and how do you schedule jobs?",
+          "level": "basic",
+          "hint": "crontab -e — minute hour day month weekday command format."
+        },
+        {
+          "q": "How do you check network connectivity and open ports on Linux?",
+          "level": "mid",
+          "hint": "ping, curl, telnet, netstat -tuln, ss -tuln, nmap."
+        },
+        {
+          "q": "What is the difference between soft link and hard link?",
+          "level": "mid",
+          "hint": "Soft link: pointer to file path. Hard link: pointer to inode — survives file rename."
+        },
+        {
+          "q": "How do you manage user accounts and groups on Linux?",
+          "level": "mid",
+          "hint": "useradd, usermod, userdel, groupadd, passwd, /etc/passwd, /etc/group."
+        },
+        {
+          "q": "How do you check CPU usage and identify high CPU processes?",
+          "level": "mid",
+          "hint": "top, htop, ps aux --sort=-%cpu, vmstat, mpstat."
+        },
+        {
+          "q": "What is SSH and how do you configure passwordless SSH?",
+          "level": "mid",
+          "hint": "ssh-keygen to generate keys, copy public key to ~/.ssh/authorized_keys on target."
+        },
+        {
+          "q": "How do you set up and manage firewall rules on Linux?",
+          "level": "mid",
+          "hint": "firewalld: firewall-cmd commands. iptables: iptables -A INPUT rules."
+        },
+        {
+          "q": "How do you troubleshoot a Linux server that is unreachable?",
+          "level": "adv",
+          "hint": "Check ping, SSH port, firewall, sshd service, network interface, disk space, OOM killer."
+        },
+        {
+          "q": "What is the difference between /etc/profile, .bashrc, and .bash_profile?",
+          "level": "mid",
+          "hint": "profile: login shell system-wide. bash_profile: login shell per-user. bashrc: non-login interactive shell."
+        },
+        {
+          "q": "How do you manage packages on Red Hat/RHEL Linux?",
+          "level": "basic",
+          "hint": "yum install/remove/update, rpm -qa to list, yum list installed."
+        },
+        {
+          "q": "How do you check system logs on Linux?",
+          "level": "basic",
+          "hint": "journalctl, /var/log/messages, /var/log/syslog, /var/log/secure for auth logs."
+        }
+      ]
+    },
+    {
+      "id": "websphere",
+      "label": "IBM WebSphere",
+      "icon": "🖥️",
+      "items": [
+        {
+          "q": "What is IBM WebSphere Application Server (WAS) and what is it used for?",
+          "level": "basic",
+          "hint": "Enterprise Java application server — hosts Java EE applications, used in banking and enterprise."
+        },
+        {
+          "q": "What are the key components of WebSphere Application Server?",
+          "level": "basic",
+          "hint": "Cell, Node, Node Agent, Deployment Manager (Dmgr), Application Server, Cluster."
+        },
+        {
+          "q": "What is the difference between WebSphere Base and WebSphere ND (Network Deployment)?",
+          "level": "mid",
+          "hint": "Base: single server. ND: multiple servers with Deployment Manager for central management."
+        },
+        {
+          "q": "How do you start and stop WebSphere Application Server?",
+          "level": "basic",
+          "hint": "startServer.sh / stopServer.sh in bin/ directory, or via Admin Console."
+        },
+        {
+          "q": "How do you access the WebSphere Administrative Console?",
+          "level": "basic",
+          "hint": "https://hostname:9043/ibm/console — default admin port is 9043 for HTTPS."
+        },
+        {
+          "q": "How do you deploy an application (EAR/WAR) to WebSphere?",
+          "level": "mid",
+          "hint": "Admin Console → Applications → Install, or wsadmin scripting tool."
+        },
+        {
+          "q": "What are JDBC Providers and Data Sources in WebSphere?",
+          "level": "mid",
+          "hint": "JDBC Provider = database driver config. Data Source = connection pool to the database."
+        },
+        {
+          "q": "How do you configure JVM heap size in WebSphere?",
+          "level": "mid",
+          "hint": "Admin Console → Server → JVM settings → Initial/Maximum heap size (-Xms/-Xmx)."
+        },
+        {
+          "q": "What is WebSphere MQ and how does it integrate with WAS?",
+          "level": "mid",
+          "hint": "IBM messaging middleware — JMS provider configured in WAS for async messaging."
+        },
+        {
+          "q": "How do you configure SSL in WebSphere?",
+          "level": "mid",
+          "hint": "Key stores, trust stores, SSL configurations in Admin Console → Security → SSL."
+        },
+        {
+          "q": "How do you configure Virtual Hosts in WebSphere?",
+          "level": "mid",
+          "hint": "Map application URLs to host aliases — Environment → Virtual Hosts in Admin Console."
+        },
+        {
+          "q": "How do you apply Fix Packs to WebSphere using Update Installer?",
+          "level": "mid",
+          "hint": "Download fix pack, run updateSilent.sh with -installationDirectory and -installFix flags."
+        },
+        {
+          "q": "How do you troubleshoot application issues in WebSphere?",
+          "level": "adv",
+          "hint": "Check SystemOut.log, SystemErr.log in logs/ directory, enable trace, check thread dumps."
+        },
+        {
+          "q": "What is thread pool configuration in WebSphere and why does it matter?",
+          "level": "adv",
+          "hint": "Controls max concurrent threads per server — tune Web Container thread pool for high load."
+        },
+        {
+          "q": "How do you configure Global Security in WebSphere?",
+          "level": "adv",
+          "hint": "Admin Console → Security → Global Security — enable application security, LDAP/AD integration."
+        },
+        {
+          "q": "What is wsadmin and how have you used it?",
+          "level": "mid",
+          "hint": "Jython/Jacl scripting tool for automating WebSphere admin tasks — deploy apps, change config."
+        },
+        {
+          "q": "How do you set up WebSphere clustering?",
+          "level": "adv",
+          "hint": "Create cluster in ND environment, add cluster members, use IHS (IBM HTTP Server) as load balancer."
+        },
+        {
+          "q": "What are the differences between WebSphere and Apache Tomcat?",
+          "level": "basic",
+          "hint": "WebSphere: full Java EE, enterprise features, IBM support. Tomcat: lightweight, open-source, servlet only."
+        },
+        {
+          "q": "What is WebSphere DMGR (Deployment Manager) and what is its role?",
+          "level": "basic",
+          "hint": "Central admin server in a WebSphere ND cell — manages node agents and application servers."
+        },
+        {
+          "q": "Will the application work if DMGR is down?",
+          "level": "mid",
+          "hint": "Yes — DMGR is only needed for admin/config changes. App servers run independently once started."
+        },
+        {
+          "q": "Why is MQ used and why do we configure it with WebSphere?",
+          "level": "mid",
+          "hint": "Async messaging — decouples apps, handles peak loads, ensures reliable delivery. WebSphere uses JMS/MQ for inter-app communication."
+        },
+        {
+          "q": "Why does memory leak occur in WebSphere and how do you fix it?",
+          "level": "mid",
+          "hint": "ClassLoader leaks, thread locals not cleared, unclosed connections. Fix: heap dumps, GC tuning, connection pool config, app restart with root cause analysis."
+        },
+        {
+          "q": "What is Weblogic and how does it compare to WebSphere?",
+          "level": "basic",
+          "hint": "Oracle's Java EE app server. Both are full JEE containers — WebLogic uses domains/managed servers, WebSphere uses cells/nodes/clusters."
+        },
+        {
+          "q": "How do you configure an SSL certificate in WebSphere without downtime?",
+          "level": "adv",
+          "hint": "Use dynamic SSL config reload — add new cert to keystore, update SSL config in admin console, apply without restarting. Test on one node first in cluster."
+        },
+        {
+          "q": "What are SSL certificate use cases in enterprise middleware?",
+          "level": "mid",
+          "hint": "HTTPS listeners, mutual TLS between app server and DB/MQ, client cert auth, internal service-to-service encryption."
+        },
+        {
+          "q": "Describe 2 major real-time production incidents you have handled.",
+          "level": "adv",
+          "hint": "Structure: incident description → impact → root cause → immediate fix → long-term prevention. Use your WebSphere OOM or Tomcat thread exhaustion examples."
+        }
+      ]
+    },
+    {
+      "id": "k8s",
+      "label": "Kubernetes",
+      "icon": "☸️",
+      "items": [
+        {
+          "q": "What is Kubernetes and what problems does it solve?",
+          "level": "basic",
+          "hint": ""
+        },
+        {
+          "q": "Explain the difference between a Pod, Deployment, and Service in Kubernetes.",
+          "level": "basic",
+          "hint": "You have created and managed all three in your projects."
+        },
+        {
+          "q": "What is the role of a ReplicaSet in Kubernetes?",
+          "level": "basic",
+          "hint": ""
+        },
+        {
+          "q": "How do you expose an application running in Kubernetes to the outside world?",
+          "level": "mid",
+          "hint": "Services: ClusterIP, NodePort, LoadBalancer — and Routes in OpenShift."
+        },
+        {
+          "q": "What is a Kubernetes Namespace and why is it used?",
+          "level": "basic",
+          "hint": "Logical isolation of resources — used for dev/uat/prod separation."
+        },
+        {
+          "q": "How do you perform a rolling update and rollback in Kubernetes?",
+          "level": "mid",
+          "hint": "kubectl rollout commands, Helm rollback."
+        },
+        {
+          "q": "What are ConfigMaps and Secrets? How are they different?",
+          "level": "mid",
+          "hint": ""
+        },
+        {
+          "q": "What is a PersistentVolume and PersistentVolumeClaim?",
+          "level": "mid",
+          "hint": ""
+        },
+        {
+          "q": "How do you scale a deployment manually and automatically in Kubernetes?",
+          "level": "mid",
+          "hint": "kubectl scale, HorizontalPodAutoscaler (HPA)."
+        },
+        {
+          "q": "What is a DaemonSet and when would you use it?",
+          "level": "adv",
+          "hint": ""
+        },
+        {
+          "q": "How do you troubleshoot a Pod stuck in CrashLoopBackOff?",
+          "level": "adv",
+          "hint": "kubectl logs, kubectl describe pod — practical steps."
+        },
+        {
+          "q": "How do you manage CPU and memory resource limits for Pods?",
+          "level": "adv",
+          "hint": "Requests vs limits defined in the YAML spec."
+        }
+      ]
+    },
+    {
+      "id": "openshift",
+      "label": "OpenShift",
+      "icon": "🔴",
+      "items": [
+        {
+          "q": "What is the difference between OpenShift and plain Kubernetes?",
+          "level": "basic",
+          "hint": "OpenShift adds security, Routes, Projects, image registry on top of Kubernetes."
+        },
+        {
+          "q": "What is a Route in OpenShift and how does it differ from a Kubernetes Ingress?",
+          "level": "mid",
+          "hint": "HAProxy router built-in — just oc expose svc to create a route."
+        },
+        {
+          "q": "How do you create a Project in OpenShift and manage access to it?",
+          "level": "basic",
+          "hint": "oc new-project, oc adm policy add-role-to-user."
+        },
+        {
+          "q": "What is the difference between a DeploymentConfig and a Deployment in OpenShift?",
+          "level": "mid",
+          "hint": "DC: OpenShift-specific with triggers. Deployment: standard Kubernetes — preferred now."
+        },
+        {
+          "q": "How do you configure networking for applications in OpenShift?",
+          "level": "mid",
+          "hint": "SDN, Routes, Services — expose, configure TLS termination."
+        },
+        {
+          "q": "What is the OpenShift internal image registry and how do you push images to it?",
+          "level": "mid",
+          "hint": "docker login to registry URL, tag image, docker push."
+        },
+        {
+          "q": "How does OpenShift handle Security Context Constraints (SCCs)?",
+          "level": "adv",
+          "hint": "SCCs are stricter than Kubernetes by default — containers cannot run as root."
+        },
+        {
+          "q": "What are OpenShift Operators and how have you used them?",
+          "level": "adv",
+          "hint": "OperatorHub, managing stateful applications lifecycle."
+        },
+        {
+          "q": "How do you monitor applications running on OpenShift?",
+          "level": "mid",
+          "hint": "Splunk integration and OpenShift built-in monitoring stack."
+        },
+        {
+          "q": "What is the oc command-line tool and how does it differ from kubectl?",
+          "level": "basic",
+          "hint": "oc is a superset of kubectl with OpenShift-specific commands."
+        },
+        {
+          "q": "How do you configure authentication and authorization in OpenShift?",
+          "level": "adv",
+          "hint": "OAuth, LDAP/AD integration, RBAC — role bindings at project level."
+        },
+        {
+          "q": "Walk me through setting up a complete CI/CD pipeline deploying to OpenShift using Jenkins.",
+          "level": "adv",
+          "hint": "Bitbucket webhook → Jenkins build → Docker image → Helm deploy to OpenShift."
+        }
+      ]
+    },
+    {
+      "id": "docker",
+      "label": "Docker",
+      "icon": "🐳",
+      "items": [
+        {
+          "q": "What is Docker and how is it different from a virtual machine?",
+          "level": "basic",
+          "hint": ""
+        },
+        {
+          "q": "What is a Dockerfile? Walk me through the key instructions you use.",
+          "level": "basic",
+          "hint": "FROM, RUN, COPY, CMD, EXPOSE, ENV — key Dockerfile instructions."
+        },
+        {
+          "q": "What is the difference between a Docker image and a Docker container?",
+          "level": "basic",
+          "hint": ""
+        },
+        {
+          "q": "How do you build a Docker image and push it to a container registry?",
+          "level": "basic",
+          "hint": "docker build, docker tag, docker push."
+        },
+        {
+          "q": "What container registries have you worked with apart from Docker Hub?",
+          "level": "basic",
+          "hint": "OpenShift internal registry, AWS ECR, Azure ACR."
+        },
+        {
+          "q": "How do you manage and monitor running containers?",
+          "level": "mid",
+          "hint": "docker ps, docker logs, docker stats."
+        },
+        {
+          "q": "What is a multi-stage Docker build and why would you use it?",
+          "level": "mid",
+          "hint": "Reduces final image size by separating build and runtime stages."
+        },
+        {
+          "q": "How do Docker volumes work and when do you use them?",
+          "level": "mid",
+          "hint": "Persistent storage that survives container restarts."
+        },
+        {
+          "q": "What is Docker Compose and how does it differ from Kubernetes?",
+          "level": "mid",
+          "hint": "Local multi-container orchestration vs production-grade platform."
+        },
+        {
+          "q": "How do you optimize a Docker image for size and security?",
+          "level": "adv",
+          "hint": "Minimal base images, .dockerignore file, running as non-root user."
+        }
+      ]
+    },
+    {
+      "id": "scenario",
+      "label": "Scenario Based",
+      "icon": "💡",
+      "items": [
+        {
+          "q": "Your Jenkins pipeline is failing at the deployment stage to OpenShift. How do you troubleshoot it?",
+          "level": "adv",
+          "hint": "Check Jenkins console logs, oc get events, pod describe, image pull errors."
+        },
+        {
+          "q": "A Pod is running but the application is not accessible from outside. What steps do you take?",
+          "level": "adv",
+          "hint": "Check Service selector, Route configuration, pod logs, network policies."
+        },
+        {
+          "q": "You need to deploy a new version of an application with zero downtime. How do you approach it?",
+          "level": "adv",
+          "hint": "Rolling update strategy, readiness probes, Helm upgrade."
+        },
+        {
+          "q": "Your Helm chart deployment failed halfway through. How do you recover?",
+          "level": "adv",
+          "hint": "helm rollback, check release history, debug with --dry-run flag."
+        },
+        {
+          "q": "A client reports slow application performance in production. What is your approach?",
+          "level": "adv",
+          "hint": "Splunk logs, pod resource usage, HPA scaling, node capacity checks."
+        },
+        {
+          "q": "How would you set up a new OpenShift environment for a banking application from scratch?",
+          "level": "adv",
+          "hint": "Projects, networking, image registry, CI/CD pipeline, secrets, monitoring."
+        },
+        {
+          "q": "Your team wants to migrate from manual deployments to a fully automated CI/CD pipeline. How do you plan it?",
+          "level": "adv",
+          "hint": "Bitbucket → Jenkins → Helm → OpenShift — walk through the design."
+        },
+        {
+          "q": "Describe a Severity-1 production incident you handled. How did you resolve it?",
+          "level": "adv",
+          "hint": "Explain the troubleshooting approach: logs, root cause, fix, RCA document."
+        },
+        {
+          "q": "An IIS application is throwing 503 errors in production. How do you diagnose and fix it?",
+          "level": "adv",
+          "hint": "Application pool stopped, worker process crash — Event Viewer, recycle pool."
+        },
+        {
+          "q": "Your Ansible playbook is failing on 3 out of 10 servers. How do you handle it?",
+          "level": "adv",
+          "hint": "--limit to target failed hosts, check facts, idempotency issues."
+        },
+        {
+          "q": "An EKS pod is not pulling an image from ECR. What do you do?",
+          "level": "adv",
+          "hint": "IAM role for EC2 node group, ECR policy, docker login to ECR."
+        },
+        {
+          "q": "Your Azure Redis cache is causing high latency in production. How do you troubleshoot?",
+          "level": "adv",
+          "hint": "Connection pool exhaustion, eviction policy, cache hit ratio, scaling tier."
+        },
+        {
+          "q": "A WebSphere server is unresponsive and not serving requests. What do you do?",
+          "level": "adv",
+          "hint": "Check SystemOut.log, thread dump, JVM heap, restart server, check application logs."
+        },
+        {
+          "q": "You need to create AWS infrastructure for a new project using Terraform. How do you start?",
+          "level": "adv",
+          "hint": "Write provider, VPC, subnets, EC2/EKS resources, remote state in S3, run init/plan/apply."
+        },
+        {
+          "q": "A Linux server has very high CPU usage. How do you identify and fix the issue?",
+          "level": "adv",
+          "hint": "top/htop to find process, check logs, kill if rogue, tune app config or scale up."
+        }
+      ]
+    }
+  ]
+}
