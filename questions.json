@@ -1,6 +1,6 @@
 {
   "version": "1.1",
-  "updated": "2026-06-23",
+  "updated": "2026-06-24",
   "topics": [
     {
       "id": "devops",
@@ -278,6 +278,36 @@
           "level": "adv",
           "hint": "Structure: incident → impact → root cause → immediate fix → long-term prevention.",
           "answer": "Incident 1 — WebSphere OOM in production: A memory leak caused by unclosed JDBC connections gradually consumed the heap over several hours, eventually crashing the application server during peak trading hours. Immediate fix was a controlled restart with increased heap. Root cause analysis using heap dumps identified a specific DAO class not closing ResultSets. Fix was deployed as a hotfix through an emergency change process. Long-term prevention: added connection pool leak detection in context settings and included heap trend monitoring in the daily operations checks. Incident 2 — Tomcat thread exhaustion: A slow-responding downstream API caused Tomcat threads to accumulate, eventually exhausting the thread pool and causing the application to stop accepting new requests. Immediate fix: removed the affected node from the load balancer and restarted. Root cause: missing connection timeout on the HTTP client. Fix: added 5-second connect and read timeouts. Long-term: implemented circuit breaker pattern for all downstream API calls."
+        },
+        {
+          "q": "How do you configure a JDBC data source in WebSphere and what are the key parameters?",
+          "level": "mid",
+          "hint": "JNDI name, connection pool size (min/max), connection timeout, JDBC provider.",
+          "answer": "In WebSphere Admin Console, navigate to Resources → JDBC → Data Sources. First create a JDBC Provider (e.g., Oracle JDBC Driver) pointing to the driver JAR path. Then create a Data Source under it with a JNDI name (e.g., jdbc/MyDS), DB credentials stored as J2C authentication alias, and connection pool settings. Key parameters: minimum connections (usually 1), maximum connections (sized to app load, typically 20–50), connection timeout, reap time, and unused timeout. Applications look up the data source via JNDI — they never manage connections directly. In wsadmin scripting, AdminTask.createDatasource() automates this for repeatable deployments."
+        },
+        {
+          "q": "What is WebSphere clustering and how does it provide high availability?",
+          "level": "mid",
+          "hint": "Cluster = group of identical server instances. IBM HTTP Server + WebSphere Plugin load balances across them.",
+          "answer": "A WebSphere cluster is a group of application server instances (members) configured identically and managed as a single unit. All members run the same applications and share the same configuration, pushed from DMGR. High availability is achieved through the WebSphere Plugin (plugin-cfg.xml) installed in IBM HTTP Server (IHS), which load-balances requests across all cluster members using round-robin or random routing. If one member goes down, IHS automatically routes traffic to surviving members. For session persistence, WebSphere supports in-memory replication (peer-to-peer) or database-backed sessions so users are not dropped during failovers. We used a 4-node cluster for a UK core banking app, giving us rolling restart capability during maintenance windows without downtime."
+        },
+        {
+          "q": "How do you tune WebSphere thread pools and why is it important?",
+          "level": "adv",
+          "hint": "WebContainer thread pool handles HTTP requests. Tune max threads to CPU cores × 2, watch for thread hang alerts.",
+          "answer": "The WebContainer thread pool directly controls how many concurrent HTTP requests WebSphere can handle. Navigate to Servers → Server Types → WebSphere Application Servers → [server] → Thread Pools → WebContainer. Key settings: Minimum Size (threads always running, usually 10), Maximum Size (ceiling for concurrency, tune to 2× CPU cores for CPU-bound apps or higher for I/O-bound), and Thread inactivity timeout. If Maximum is too low, requests queue up and response times spike. If too high, excessive context switching degrades throughput. I monitor via SystemOut.log for 'Thread pool is growing' warnings, and use Tivoli Performance Viewer (TPV) to track active thread counts. In production incidents I have seen thread exhaustion caused by slow DB queries holding threads — fixing the DB query, not increasing thread count, was the correct fix."
+        },
+        {
+          "q": "How do you analyse WebSphere logs to diagnose a production issue?",
+          "level": "mid",
+          "hint": "SystemOut.log, SystemErr.log, native_stderr.log, FFDC logs in ffdc/ directory.",
+          "answer": "WebSphere generates several key log files under <profile>/logs/<server>/. SystemOut.log is the primary log — it captures application stdout, WebSphere messages (prefixed like WSVR0001I), and JVM output. SystemErr.log captures stderr and stack traces from uncaught exceptions. For JVM-level crashes or OutOfMemoryErrors, native_stderr.log contains JVM internals. The ffdc/ directory holds First Failure Data Capture files — these are auto-generated XML snapshots taken when WebSphere catches an internal exception, and they are invaluable for root cause analysis. My diagnostic flow: grep SystemOut.log for ERROR/WARN around the incident timestamp, check ffdc/ for new files, look at SystemErr.log for stack traces. For memory issues I trigger a heap dump (via wsadmin or Admin Console) and analyse with IBM Heap Analyzer. I also check IBM Support Assistant for matching APAR numbers against the error codes."
+        },
+        {
+          "q": "What is WebSphere Network Deployment (ND) and how does it differ from Base?",
+          "level": "basic",
+          "hint": "ND = DMGR + Node Agents + managed servers. Base = standalone, no central management.",
+          "answer": "WebSphere Application Server comes in two key editions: Base and Network Deployment (ND). Base is a standalone single-server installation with no central management — suitable for development or simple single-server deployments. Network Deployment adds a Deployment Manager (DMGR) that centrally manages multiple nodes and servers across a cell. In ND, each physical host runs a Node Agent process that acts as a bridge between DMGR and the local application servers. Configuration is pushed from DMGR, applications are deployed centrally, and you get clustering and workload management. In enterprise banking environments we always use ND — a typical setup is DMGR on a dedicated host, 4 application server nodes spread across 2 physical hosts for HA, and IBM HTTP Server on a DMZ host running the WebSphere Plugin to route traffic."
         }
       ]
     },
