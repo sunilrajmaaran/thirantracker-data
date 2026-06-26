@@ -1,6 +1,6 @@
 {
   "version": "1.1",
-  "updated": "2026-06-24",
+  "updated": "2026-06-26",
   "topics": [
     {
       "id": "devops",
@@ -1528,6 +1528,152 @@
           "level": "mid",
           "hint": "Circuit breaker pattern, fallback responses, queue for retry, notify stakeholders, check SLA with vendor.",
           "answer": "Immediate response: confirm the third-party API is down not just your connectivity — check the provider's status page and test from multiple locations. Assess impact: what functionality is broken, can the application degrade gracefully? If circuit breaker is implemented (Resilience4j, Hystrix) it should already be returning fallback responses — verify it is operating correctly. If not: deploy a quick fix catching connection exceptions and returning a cached or default response where possible. Queue operations that can be retried later — put API calls on an MQ queue and process when the third-party recovers. Notify stakeholders of the partial outage with user impact. Contact the vendor's support with their SLA reference number. Document the incident — implement circuit breaker, timeout settings, retry with exponential backoff, and fallback strategies as permanent improvements after the incident is resolved."
+        }
+      ]
+    },
+    {
+      "id": "prometheus",
+      "label": "Prometheus",
+      "icon": "🔥",
+      "items": [
+        {
+          "q": "What is Prometheus and what problem does it solve?",
+          "level": "basic",
+          "hint": "Open-source monitoring and alerting toolkit. Pull-based metrics collection.",
+          "answer": "Prometheus is an open-source monitoring and alerting system originally built at SoundCloud. It solves the problem of collecting, storing, and querying time-series metrics from distributed systems. Unlike traditional push-based monitoring tools, Prometheus uses a pull model — it scrapes metrics from HTTP endpoints (called targets) at regular intervals. This makes it easy to add monitoring without changing application architecture. It stores metrics in a local time-series database (TSDB) with a powerful query language called PromQL, and integrates with Alertmanager for routing alerts. In a DevOps context, Prometheus is the de facto standard for Kubernetes and OpenShift cluster monitoring."
+        },
+        {
+          "q": "Explain the Prometheus architecture and its core components.",
+          "level": "basic",
+          "hint": "Prometheus Server, Exporters, Pushgateway, Alertmanager, Service Discovery.",
+          "answer": "Prometheus has five core components. The Prometheus Server is the heart — it scrapes metrics from targets, stores them in the TSDB, and evaluates alerting rules. Exporters are lightweight agents that expose metrics from systems that do not natively speak Prometheus format — for example, node_exporter for Linux OS metrics, blackbox_exporter for endpoint probing, and jmx_exporter for Java/JVM metrics (useful for WebSphere and Tomcat). The Pushgateway is for short-lived jobs that cannot be scraped — they push metrics to the gateway and Prometheus scrapes it. Alertmanager receives firing alerts from Prometheus and handles routing, deduplication, grouping, and notification to Slack, email, PagerDuty, etc. Service Discovery lets Prometheus automatically discover targets in dynamic environments like Kubernetes, AWS EC2, and OpenShift — no manual target configuration needed."
+        },
+        {
+          "q": "What is a metric in Prometheus? Explain the four metric types.",
+          "level": "basic",
+          "hint": "Counter (ever-increasing), Gauge (up/down), Histogram (buckets), Summary (quantiles).",
+          "answer": "A Prometheus metric is a named, labelled time-series value with a timestamp. The four types are: Counter — a monotonically increasing value that only goes up, used for total counts like HTTP requests, errors, or bytes processed. You never reset a counter; you use rate() in PromQL to get the per-second rate. Gauge — a value that can go up or down, used for current state like CPU usage, memory usage, number of active connections, or queue depth. Histogram — samples observations (like request durations) and places them into configurable buckets, plus a sum and count. It lets you calculate percentiles server-side with histogram_quantile(). Summary — similar to Histogram but calculates quantiles client-side (in the application). Histograms are preferred in Prometheus because they can be aggregated across multiple instances, while Summaries cannot."
+        },
+        {
+          "q": "What is PromQL? Give examples of common queries you have used.",
+          "level": "mid",
+          "hint": "Prometheus Query Language. rate(), irate(), increase(), histogram_quantile(), by(), without().",
+          "answer": "PromQL is Prometheus's functional query language used to select and aggregate time-series data. Common patterns I use: 'rate(http_requests_total[5m])' gives the per-second HTTP request rate averaged over 5 minutes — always use rate() on counters, not raw values. 'irate(http_requests_total[5m])' gives the instantaneous rate, better for volatile spikes. 'histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))' calculates the 95th percentile latency — critical for SLA monitoring. 'node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100' shows available memory percentage on a node. 'sum(rate(http_requests_total[5m])) by (service)' aggregates request rate grouped by service. 'absent(up{job=\"api\"})' fires an alert when a target completely disappears from Prometheus — extremely useful for detecting crashed services."
+        },
+        {
+          "q": "What are labels in Prometheus and why are they important?",
+          "level": "basic",
+          "hint": "Key-value pairs that identify dimensions of a metric. Cardinality risk if misused.",
+          "answer": "Labels are key-value pairs attached to metrics that add dimensional context. For example, 'http_requests_total{method=\"GET\", status=\"200\", service=\"payment-api\"}' — you can now query and aggregate by any combination of these labels. Labels are what make a single metric multidimensional. However, cardinality is the biggest risk with labels — each unique combination of label values creates a new time series. If you add a label with unbounded values like user_id or request_id, you can create millions of time series and crash Prometheus. The rule of thumb is labels should have low cardinality (a small, bounded set of values). Good label examples: environment (prod/staging), region (us-east/eu-west), pod name, service name. Bad label examples: user ID, order ID, IP address."
+        },
+        {
+          "q": "How does Prometheus service discovery work in Kubernetes/OpenShift?",
+          "level": "mid",
+          "hint": "kubernetes_sd_configs. Automatically discovers Pods, Services, Nodes via Kubernetes API.",
+          "answer": "In Kubernetes and OpenShift, Prometheus uses kubernetes_sd_configs to automatically discover scrape targets via the Kubernetes API. It can discover Pods, Services, Endpoints, Nodes, and Ingresses. When a new Pod starts, Prometheus discovers it automatically — no manual prometheus.yml changes needed. You control which Pods are scraped using annotations: 'prometheus.io/scrape: \"true\"' opts a Pod in, 'prometheus.io/port: \"8080\"' specifies the metrics port, and 'prometheus.io/path: \"/metrics\"' overrides the default path. Relabeling rules (relabel_configs) in the scrape config let you filter targets, rename labels, or drop metrics before they are stored. In OpenShift, the Prometheus Operator uses ServiceMonitor and PodMonitor CRDs to define scrape configurations declaratively — no raw prometheus.yml editing required. This is the production-standard approach."
+        },
+        {
+          "q": "What is a ServiceMonitor in Prometheus Operator?",
+          "level": "mid",
+          "hint": "Kubernetes CRD that declaratively defines which Services Prometheus should scrape.",
+          "answer": "The Prometheus Operator extends Kubernetes with Custom Resource Definitions (CRDs) to manage Prometheus configuration declaratively. A ServiceMonitor is a CRD that specifies which Kubernetes Services Prometheus should scrape and how. Instead of editing prometheus.yml directly, you create a ServiceMonitor YAML that references a Service using label selectors, defines the port name, scrape interval, and path. The Prometheus Operator watches for ServiceMonitor objects and automatically updates the Prometheus configuration. This fits perfectly into GitOps workflows — your monitoring config lives alongside your application manifests in Git. For example, when I deploy a new microservice on OpenShift, I include a ServiceMonitor in the Helm chart so Prometheus automatically starts scraping metrics the moment the service is deployed."
+        },
+        {
+          "q": "How do you configure alerting in Prometheus?",
+          "level": "mid",
+          "hint": "PrometheusRule CRD or alert.rules file. Alertmanager routes and sends notifications.",
+          "answer": "Alerting in Prometheus has two parts. First, you define alerting rules in Prometheus (as YAML files or PrometheusRule CRDs in Operator setups). A rule has a PromQL expression, a 'for' duration (how long the condition must be true before firing), severity labels, and annotation text. For example: 'alert: HighMemoryUsage, expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.10, for: 5m, labels: {severity: critical}, annotations: {summary: \"Memory below 10% on {{ $labels.instance }}\"}'. When the expression is true for 5 consecutive minutes, Prometheus sends the alert to Alertmanager. Second, Alertmanager handles routing — it deduplicates alerts, groups related alerts, applies silences, and routes to receivers like Slack, email, or PagerDuty based on label matchers in the routing tree. In OpenShift, PrometheusRule CRDs make alert management fully GitOps-compatible."
+        },
+        {
+          "q": "What is the Pushgateway and when should you use it?",
+          "level": "mid",
+          "hint": "For short-lived jobs (batch, cron) that exit before Prometheus can scrape them.",
+          "answer": "The Pushgateway is an intermediary service for jobs that cannot be scraped because they are short-lived — they finish and exit before Prometheus's next scrape cycle. Batch jobs, cron jobs, and one-off scripts push their metrics to the Pushgateway on completion, and Prometheus then scrapes the gateway on its normal schedule. The correct use case is specifically short-lived jobs — for example, a database backup job that runs at 2am, completes in 3 minutes, then pushes metrics like backup_duration_seconds and backup_success (1 or 0) to the gateway. Importantly, the Pushgateway is NOT a general-purpose push endpoint for all services. Long-running services should expose a /metrics endpoint and be scraped normally. A common anti-pattern is using Pushgateway for everything, which defeats Prometheus's pull model and breaks the instance-up detection (if a service dies, Prometheus still sees stale metrics from the gateway)."
+        },
+        {
+          "q": "How do you handle Prometheus storage and retention?",
+          "level": "mid",
+          "hint": "Local TSDB with --storage.tsdb.retention.time. Remote storage for long-term (Thanos, Cortex).",
+          "answer": "Prometheus stores data locally in its TSDB. Retention is controlled by the --storage.tsdb.retention.time flag (default 15 days) or --storage.tsdb.retention.size to cap by disk size. For local retention this is fine, but for long-term storage (months/years) and high availability, Prometheus integrates with remote storage solutions. Thanos is the most popular — it runs as sidecar containers alongside Prometheus, uploads TSDB blocks to object storage (S3, GCS, Azure Blob), and provides a global query layer across multiple Prometheus instances. Cortex is another option offering multi-tenant long-term storage. In OpenShift environments, the platform's built-in Prometheus stack often uses Thanos components by default for HA. For capacity planning, I monitor TSDB size with 'prometheus_tsdb_head_chunks' and 'prometheus_tsdb_storage_blocks_bytes' metrics — Prometheus monitoring itself."
+        },
+        {
+          "q": "What is a recording rule in Prometheus and why would you use it?",
+          "level": "advanced",
+          "hint": "Pre-computes expensive PromQL expressions and saves result as a new metric.",
+          "answer": "Recording rules allow you to pre-compute frequently used or computationally expensive PromQL queries and save the result as a new time-series metric. This has two main benefits: performance and simplicity. For dashboards that run the same heavy query every time they refresh (e.g., a 95th percentile calculation across hundreds of instances), pre-computing it as a recording rule means Grafana just queries a simple metric instead of re-running the expensive expression on every panel refresh. The second benefit is simplifying complex expressions — you can create a hierarchy of recording rules where simpler rules feed into more complex ones. Recording rules are defined in the same rules YAML files as alerting rules, using 'record: job:metric:aggregation' naming convention. For example: 'record: job:http_request_duration_seconds:p95, expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, job))'. This pre-computed metric is then trivial to query and plot."
+        },
+        {
+          "q": "How do you monitor a Java application (like WebSphere or Tomcat) with Prometheus?",
+          "level": "mid",
+          "hint": "JMX Exporter as Java agent exposes JVM and app metrics on /metrics endpoint.",
+          "answer": "Java applications expose management data via JMX (Java Management Extensions). The Prometheus JMX Exporter bridges JMX to Prometheus format — it runs either as a Java agent (attached to the JVM at startup) or as a standalone process. As a Java agent, you add it to the JVM startup arguments: '-javaagent:/path/to/jmx_prometheus_javaagent.jar=9404:/path/to/config.yaml'. The config YAML maps JMX MBeans to Prometheus metric names. For Tomcat, important metrics include heap memory (jvm_memory_bytes_used), GC pause time (jvm_gc_collection_seconds), thread pool (tomcat_threads_current), and active sessions. For WebSphere, you monitor thread pools, JDBC connection pools, and transaction rates via JMX MBeans. Once the exporter is running, Prometheus scrapes the /metrics endpoint on port 9404 just like any other target. This is the approach I used at FIS to bring JVM visibility into the Prometheus/Grafana stack for core banking middleware."
+        }
+      ]
+    },
+    {
+      "id": "grafana",
+      "label": "Grafana",
+      "icon": "📊",
+      "items": [
+        {
+          "q": "What is Grafana and how does it complement Prometheus?",
+          "level": "basic",
+          "hint": "Grafana is a visualization platform. Prometheus stores metrics; Grafana queries and visualises them.",
+          "answer": "Grafana is an open-source analytics and visualization platform. While Prometheus excels at collecting, storing, and alerting on metrics, its built-in graph UI is basic and not suitable for production dashboards. Grafana fills this gap — it connects to Prometheus (and many other data sources like Loki, Elasticsearch, InfluxDB, CloudWatch, Azure Monitor) as a backend and provides rich, interactive dashboards. You write PromQL queries in Grafana panels, and Grafana renders them as graphs, gauges, heatmaps, tables, and stat panels. Grafana also has its own alerting system, user management, and dashboard sharing. In a PLG stack (Prometheus + Loki + Grafana), Grafana becomes the single pane of glass — metrics from Prometheus, logs from Loki, and traces from Tempo all visible in one place. This unified observability view is what modern DevOps teams need."
+        },
+        {
+          "q": "What are the main components of a Grafana dashboard?",
+          "level": "basic",
+          "hint": "Dashboard > Rows > Panels. Each panel has a data source, query, and visualization type.",
+          "answer": "A Grafana dashboard is organised hierarchically. At the top level is the Dashboard itself, which has a title, tags, time range picker, and refresh interval. Dashboards contain Rows, which are collapsible horizontal sections used to group related panels (e.g., a 'CPU & Memory' row and a 'Network' row). Each Row contains Panels, which are the individual visualisation units. A panel has three parts: the Data Source (which Prometheus instance or other backend to query), the Query (PromQL expression), and the Visualisation type. Panel types include Time series (line/bar charts for trends), Stat (single big number for current value), Gauge (progress bar-style for percentage metrics), Bar chart (category comparisons), Heatmap (distribution over time), Table (tabular data), Text (markdown annotations), and Logs (for Loki log streams). Dashboard Variables are a key feature — they let you create dropdowns (like environment, namespace, pod) that dynamically filter all panels at once."
+        },
+        {
+          "q": "What are Grafana Variables and how do you use them?",
+          "level": "mid",
+          "hint": "Template variables create dropdowns. Query-type variables populate from metric label values.",
+          "answer": "Grafana Variables (also called template variables) make dashboards dynamic and reusable across environments, namespaces, and services. Instead of hardcoding a server name in every panel query, you define a variable like '$instance' and reference it in all queries — the user selects from a dropdown and all panels update simultaneously. The most powerful type is the Query variable, which populates its values by querying your data source. For example, a variable using 'label_values(node_uname_info, instance)' automatically lists all Prometheus nodes as dropdown options. Variable types: Query (from data source), Custom (manually defined list), Constant (fixed value, often for data source URLs), Datasource (switch between Prometheus instances), Interval (for time grouping), and Text box (free input). I use chained variables heavily — a 'namespace' variable filters a 'pod' variable so the pod dropdown only shows pods in the selected namespace. This is done with regex filtering referencing the upstream variable."
+        },
+        {
+          "q": "How do you import and manage Grafana dashboards?",
+          "level": "basic",
+          "hint": "Import by JSON, Grafana.com ID, or provision via YAML config files.",
+          "answer": "Grafana dashboards can be managed three ways. Manual import — in the UI, go to Dashboards > Import and paste a JSON or enter a Grafana.com dashboard ID. Grafana.com hosts thousands of community dashboards (e.g., ID 1860 is the widely-used Node Exporter Full dashboard, ID 315 is for Kubernetes cluster monitoring). This is the quickest way to get a production-quality dashboard immediately. JSON export/import — every Grafana dashboard can be exported as JSON from Settings > JSON Model. You can version-control this JSON in Git and import it to other Grafana instances. Dashboard provisioning — the production-grade approach. You place dashboard JSON files in a provisioning directory and create a YAML config file at 'provisioning/dashboards/'. Grafana loads them automatically on startup. This makes dashboards part of your infrastructure-as-code — they are deployed via Helm or ConfigMaps in OpenShift, not clicked through the UI. Changes go through Git review like any other config."
+        },
+        {
+          "q": "Explain Grafana data source configuration. What sources have you used?",
+          "level": "basic",
+          "hint": "Data sources are backends Grafana queries. Prometheus, Loki, CloudWatch, Azure Monitor, Elasticsearch.",
+          "answer": "A Grafana data source is a configured connection to a backend system that Grafana queries for data. You configure data sources in Configuration > Data Sources, providing the URL, authentication, and source-specific settings. Data sources I have worked with: Prometheus — for metrics, the primary source in Kubernetes/OpenShift environments; you provide the Prometheus server URL and optionally set scrape interval hints. Loki — for log aggregation (part of the PLG stack); uses LogQL query language similar to PromQL. CloudWatch — for AWS metrics like EC2, RDS, Lambda; requires AWS credentials. Azure Monitor — for Azure resource metrics; uses service principal authentication. Elasticsearch — for log and event search. In production, data sources should be provisioned via YAML files rather than configured through the UI, so they are consistent across all environments. Multiple data sources can be used in the same dashboard — for example, correlating Prometheus metrics with Loki logs on the same time axis."
+        },
+        {
+          "q": "What is Grafana alerting and how does it compare to Prometheus Alertmanager?",
+          "level": "mid",
+          "hint": "Grafana has its own alerting engine. Can alert on any data source, not just Prometheus.",
+          "answer": "Grafana has a built-in alerting system (significantly improved in Grafana 8+, now called Grafana Alerting or Unified Alerting). Grafana alert rules are defined on panels and can query any data source — this is its key advantage over Prometheus alerting, which is limited to Prometheus metrics. With Grafana Alerting you can alert on Loki log queries, CloudWatch metrics, or Elasticsearch data, not just Prometheus. Grafana Alerting uses a similar concept to Alertmanager: contact points (Slack, email, PagerDuty) and notification policies for routing. However, in most production Kubernetes setups, Prometheus Alertmanager remains preferred for infrastructure alerts (node down, pod crash, high CPU) because it is closer to the data, supports complex inhibition and silencing rules, and is GitOps-manageable via PrometheusRule CRDs. Grafana Alerting is preferred for business-level alerts that span multiple data sources. The two systems can coexist — Grafana can even use Alertmanager as its notification backend."
+        },
+        {
+          "q": "How do you organise Grafana dashboards in a large team environment?",
+          "level": "mid",
+          "hint": "Folders for organisation, Teams for access control, dashboard provisioning for GitOps.",
+          "answer": "In a large team environment, uncontrolled dashboard sprawl is a common problem. Organisation strategies: Folders — group dashboards by team, service, or platform (e.g., 'Platform/Infrastructure', 'App Team/Payment Service', 'SRE/SLO Dashboards'). Teams and permissions — Grafana Teams let you assign folder-level permissions so each team can only edit their own dashboards while viewing others. Dashboard ownership — every dashboard should have a team owner defined in its metadata. Naming conventions — prefix dashboard names with team or service ('[Infra] Node Overview', '[Payments] API Latency'). Dashboard provisioning via Git — the most important practice at scale. All production dashboards are stored as JSON in a Git repo, reviewed via PR, and deployed to Grafana automatically via provisioning. This prevents 'rogue dashboards' created manually in prod, ensures dashboards are reproducible across environments, and gives you history of every change. Dashboards provisioned this way are read-only in the UI — changes must go through Git."
+        },
+        {
+          "q": "What is Loki and how does it integrate with Grafana in a PLG stack?",
+          "level": "mid",
+          "hint": "Loki is like Prometheus for logs. Indexes labels not log content. Uses LogQL. Grafana visualises both.",
+          "answer": "Loki is a horizontally scalable, highly available log aggregation system built by Grafana Labs, designed to be cost-effective by indexing only labels (metadata) rather than full log content. This is its key differentiator from Elasticsearch — Loki does not index the log text, only the labels attached to log streams (like pod name, namespace, container). Log content is stored compressed and queried with grep-like full-text search. Promtail is the log collection agent — similar to node_exporter for metrics, it runs on every node, tails log files, attaches Kubernetes labels, and ships to Loki. Grafana integrates with Loki as a data source using LogQL query language. A typical LogQL query: '{namespace=\"banking\", container=\"payment-api\"} |= \"ERROR\" | json | latency > 500'. In a PLG stack (Prometheus + Loki + Grafana), the power is correlation — you can click on a spike in a Prometheus metric graph and jump directly to the Loki logs from that time window and pod. This dramatically reduces mean time to diagnose issues."
+        },
+        {
+          "q": "How would you set up monitoring for an OpenShift cluster using Prometheus and Grafana?",
+          "level": "advanced",
+          "hint": "OpenShift has built-in monitoring stack. Prometheus Operator, ServiceMonitors, cluster-monitoring-config.",
+          "answer": "OpenShift ships with a built-in monitoring stack based on the Prometheus Operator (found in the openshift-monitoring namespace). It includes Prometheus, Alertmanager, Thanos components for HA, and Grafana (though newer versions use the OpenShift Console built-in metrics UI). To extend monitoring for your own applications: first enable user workload monitoring by editing the cluster-monitoring-config ConfigMap in openshift-monitoring — set 'enableUserWorkload: true'. This creates a separate Prometheus instance in openshift-user-workload-monitoring namespace for application metrics. Then deploy ServiceMonitor CRDs in your application namespace — Prometheus automatically discovers and scrapes them. For custom Grafana, deploy it via the Grafana Operator from OperatorHub and configure GrafanaDataSource CRDs pointing to the Thanos Querier endpoint (not directly to Prometheus, as Thanos Querier provides the federated view). Add the cluster CA certificate for TLS. Then provision dashboards as GrafanaDashboard CRDs — all fully GitOps compatible. This gives you cluster metrics, node metrics, and application metrics all in one Grafana instance."
+        },
+        {
+          "q": "What are some Grafana best practices for production dashboards?",
+          "level": "advanced",
+          "hint": "USE/RED methods, meaningful thresholds, version-control JSON, avoid too many panels.",
+          "answer": "Production dashboard best practices I follow: Use the USE and RED methods as frameworks. USE (Utilization, Saturation, Errors) for infrastructure resources — CPU, memory, disk, network. RED (Rate, Errors, Duration) for services — requests per second, error rate, latency percentiles. Start every dashboard with a summary row — 3-4 stat panels showing the most critical numbers (error rate, p95 latency, pod count, alert count) so on-call engineers get the health status at a glance. Set meaningful thresholds — colour stat and gauge panels with green/yellow/red thresholds tied to your actual SLOs, not arbitrary values. Always use rate() on counters — never plot raw counter values, they only go up and tell you nothing useful as an instant value. Use dashboard links to connect related dashboards — link from a service dashboard to the underlying node dashboard. Keep panel count reasonable — a dashboard with 50 panels loads slowly and overwhelms the viewer. Use rows with collapse to hide detail panels. Always set default time range and refresh interval appropriate to the dashboard purpose (1 minute refresh for on-call dashboards, 5 minutes for trend dashboards). Store all dashboards in Git."
         }
       ]
     }
